@@ -1,0 +1,408 @@
+<html>
+<head>
+<script type="text/javascript" src="http://mythoughtbomb.com/wp-content/themes/responsive/js/jquery-1.8.2.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title></title>
+</head>
+<body>
+<!--[if lt IE 10]><script type="text/javascript">
+window.e=['article','section'];
+for(var i=window.e.length;i--;){document.createElement(window.e[i]);}
+</script><![endif]-->
+
+<section id="book">
+    <input id="showradio" type="checkbox" name="navigation" checked="checked"/>
+    <label for="showradio" class="shownavigation"></label>
+    
+    <input class="move" id="content1" type="radio" name="navigation" checked="checked"/>
+    <label data-page="0" for="content1" class="check radio home"></label>
+    
+    <input class="move" id="content2" type="radio" name="navigation"/>
+    <label data-page="100" for="content2" class="check radio book"></label>
+    
+    <input class="move" id="content3" type="radio" name="navigation"/>
+    <label data-page="200" for="content3" class="check radio view"></label>
+    
+    <input class="move" id="content4" type="radio" name="navigation"/>
+    <label data-page="300" for="content4" class="check radio mail"></label>
+    
+    <label data-page="0" for="content1" class="nextback content1"></label>   
+    <label data-page="100" for="content2" class="nextback content2"></label>
+    <label data-page="200" for="content3" class="nextback content3"></label>
+    <label data-page="300" for="content4" class="nextback content4"></label>
+    
+    <section id="pages">
+        <article class="page" id="one">
+             <div class="pagebody">&nbsp;</div>
+        </article>
+        <article class="page" id="two">
+            <div class="pagebody">&nbsp;</div>
+        </article>
+        <article class="page" id="three">
+            <div class="pagebody">&nbsp;</div>
+        </article>
+        <article class="page" id="four">
+            <div class="pagebody">&nbsp;</div>
+        </article>
+    </section>
+</section>
+</body>
+</html>
+
+
+<style type="text/css">
+/* site layout */
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+article,
+section { display: block; }
+
+html,
+body { overflow: hidden; }
+
+html,
+body,
+#book,
+#pages,
+.page {
+    width: 100%;
+    height: 100%;
+}
+
+.check,
+.shownavigation,
+.nextback {
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    background-color: #ccc;
+    background-color: rgba(255,255,255,.5);
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: all .25s ease;
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    display: block;
+    border-bottom: 1px solid #757575;
+}
+
+.shownavigation {
+    border-radius: 5% 5% 0 0;
+    box-shadow: 0 -1px 2px #757575;
+}
+
+.shownavigation:after {
+    position: absolute;
+    content: '';
+    width: 40%;
+    height: 3px;
+    background-color: #555;
+    top: 50%;
+    margin-top: -1px;
+    left: 30%;
+    box-shadow: 0 -7px #555, 0 7px #555;
+}
+
+input,
+.check {
+    display: none;
+    background-image: url(http://consta.errazib.com/images/inav.png);
+}
+
+.check:hover,
+.shownavigation:hover,
+.nextback:hover {
+    background-color: #f0f0f0;
+    background-color: rgba(255,255,255,.75);
+}
+
+#showradio:checked + label,
+.move:checked + label,
+.move:checked + label:hover {
+    background-color: #fff;
+    background-color: rgba(255,255,255,.85);
+    cursor: default;
+}
+
+.move:checked + label:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;     
+    border-left: 10px solid #fff;
+    border-left: 10px solid rgba(255,255,255,.85);
+    position: absolute;
+    left: 60px;
+    top: 20px;
+}
+
+#showradio ~ .nextback { display: block; }
+
+#showradio:checked ~ .nextback { display: none; }
+
+#showradio:checked + label { cursor: pointer; }
+
+#showradio:checked + label:hover { background-color: #fff; }
+
+#content1:checked ~ .content3,
+#content1:checked ~ .content4,
+#content2:checked ~ .content2,
+#content2:checked ~ .content4,
+#content3:checked ~ .content1,
+#content3:checked ~ .content3,
+#content4:checked ~ .content1,
+#content4:checked ~ .content2 { display: none; }
+
+#content1:checked ~ .content1,
+#content4:checked ~ .content4 {
+    cursor: default;
+    background-color: #ccc;
+    background-color: rgba(255,255,255,.25);
+}
+
+.mail,
+#content1:checked ~ .content2, 
+#content2:checked ~ .content3, 
+#content3:checked ~ .content4, 
+#content4:checked ~ .content4 {
+    border-radius: 0 0 5% 5%;    
+    box-shadow: 0 1px 2px #757575;
+    border-bottom: none;
+    top: 172px;
+}
+
+#content1:checked ~ .content1, 
+#content2:checked ~ .content1, 
+#content3:checked ~ .content2, 
+#content4:checked ~ .content3 { top: 111px; }
+
+#content1:checked ~ .content2:after, 
+#content2:checked ~ .content3:after, 
+#content3:checked ~ .content4:after,
+#content2:checked ~ .content1:after, 
+#content3:checked ~ .content2:after, 
+#content4:checked ~ .content3:after {
+    position: absolute;
+    font-size: 2.5em;
+    left: 20px;
+    top: 2px;
+    color: #555;
+}
+
+#content1:checked ~ .content2:after, 
+#content2:checked ~ .content3:after, 
+#content3:checked ~ .content4:after { content: '\00bb'; }
+
+#content2:checked ~ .content1:after, 
+#content3:checked ~ .content2:after, 
+#content4:checked ~ .content3:after { content: '\00ab'; }
+
+#pages {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -100;
+    transition: all .5s cubic-bezier(1,0,0,1);
+}
+
+.page {
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#one {
+    background-color: #00acee;
+    background-image: url(http://consta.errazib.com/images/home-512.png);
+    background: url(http://consta.errazib.com/images/home-512.png) fixed no-repeat center, url(http://consta.errazib.com/images/noise.png) repeat, radial-gradient(circle, #00acee 25%, #0D5CAA 100%);
+}
+
+#two {
+    background-color: #739c7e;
+    background-image: url(http://consta.errazib.com/images/book_alt2-512.png);
+    background: url(http://consta.errazib.com/images/book_alt2-512.png) no-repeat center, url(http://consta.errazib.com/images/noise.png) repeat, radial-gradient(circle, #9FC99F 25%, #0C9B6E 100%);
+}
+
+#three {
+    background-color: #dc4b39;
+    background-image: url(http://consta.errazib.com/images/new_window-512.png);
+    background: url(http://consta.errazib.com/images/new_window-512.png) fixed no-repeat center, url(http://consta.errazib.com/images/noise.png) repeat, radial-gradient(circle, #dc4b39 25%, #722C16 100%);
+}
+
+#four {
+    background-color: #FFD697;
+    background-image: url(http://consta.errazib.com/images/mail-512.png);
+    background: url(http://consta.errazib.com/images/mail-512.png) no-repeat center, url(http://consta.errazib.com/images/noise.png) repeat, radial-gradient(circle, #FFD697 25%, #C18802 100%);
+}
+
+#showradio:checked ~ .radio { display: block; }
+
+.home { background-position: left bottom; top: 111px; }
+
+.book { background-position: right top; top: 172px; }
+
+.view { background-position: left top; top: 233px; }
+
+.mail { background-position: right bottom; top: 294px; }
+
+.active { background-color: #fff; }
+
+/* page layout */
+.pagebody {
+    width: 960px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+/* media query */
+@media (min-width:801px) {
+   #content2:checked ~ #pages { top: -100%; }
+   #content3:checked ~ #pages { top: -200%; }
+   #content4:checked ~ #pages { top: -300%; }
+}
+
+@media (max-width:800px) {
+    .page { display: none; }
+
+    #content1:checked ~ #pages #one,
+    #content2:checked ~ #pages #two,
+    #content3:checked ~ #pages #three,
+    #content4:checked ~ #pages #four { display: block; }
+
+    .check,
+    .shownavigation,
+    .nextback,
+    #content1:checked ~ .content1, 
+    #content2:checked ~ .content1, 
+    #content3:checked ~ .content2, 
+    #content4:checked ~ .content3,
+    #content1:checked ~ .content2, 
+    #content2:checked ~ .content3, 
+    #content3:checked ~ .content4, 
+    #content4:checked ~ .content4 {
+        width: 50px;
+        height: 50px;
+        position: relative;
+        top: 25px;
+        left: 25px;
+    }
+
+    .move:checked + label:after {
+        left: 50px;
+        top: 15px;
+    }
+
+    .home { background-position: -5px -65px; }
+
+    .book { background-position: -65px -3px; }
+
+    .view { background-position: -5px -5px; }
+
+    .mail { background-position: -65px -65px; }
+
+    #content1:checked ~ .content2:after, 
+    #content2:checked ~ .content3:after, 
+    #content3:checked ~ .content4:after,
+    #content2:checked ~ .content1:after, 
+    #content3:checked ~ .content2:after, 
+    #content4:checked ~ .content3:after {
+        font-size: 2em;
+        left: 16px;
+        top: 5px;
+    }
+}
+
+@media (max-width:640px) {
+    .check,
+    .shownavigation,
+    .nextback {
+        border: none;
+        border-right: 1px solid #757575;
+        margin-right: -1px;
+        top: 12px;
+        left: 12px;
+    }
+
+    .move:checked + label:after {
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;     
+        border-top: 10px solid #fff;
+        border-top: 10px solid rgba(255,255,255,.85);
+        left: 15px;
+        top: 50px;
+    }
+
+    #content1:checked ~ .content1, 
+    #content2:checked ~ .content1, 
+    #content3:checked ~ .content2, 
+    #content4:checked ~ .content3,
+    #content1:checked ~ .content2, 
+    #content2:checked ~ .content3, 
+    #content3:checked ~ .content4, 
+    #content4:checked ~ .content4 {
+        top: 12px;
+        left: 12px;
+    }
+
+    #showradio:checked ~ .radio,
+    #showradio ~ .nextback,
+    .shownavigation {
+        display: inline-block;
+        margin-left: -3px;
+    }
+
+    .shownavigation {
+        border-radius: 5% 0 0 5%;
+        box-shadow: -1px 0 1px #757575;
+    }
+
+    .mail,
+    #content1:checked ~ .content2, 
+    #content2:checked ~ .content3, 
+    #content3:checked ~ .content4, 
+    #content4:checked ~ .content4 {
+        border-radius: 0 5% 5% 0;    
+        box-shadow: 1px 0 0 #757575;
+        border-right: none;
+    }
+}
+</style>
+<script>
+/**
+* Javascript is only used to visualize some of the sliding effects on IE < 10
+* v.2 of http://codepen.io/howbizarre/pen/Halqb
+**/
+</script>
+<!--[if lt IE 10]><script type="text/javascript">
+$(document).ready(function () {
+    'use strict';
+
+    var checks = $('.check'),
+        content = $('#pages');
+
+    $('.shownavigation').hide();
+    $('.nextback').hide();
+    $(checks[0]).addClass('active');
+
+    checks.css({
+        "display": "block",
+        "border": "1px solid #757575",
+        "margin-top": "-1px"
+    }).on('click', function () {
+        var self = $(this),
+            page = self.data("page");
+
+        checks.removeClass('active');
+        self.addClass('active');
+        content.stop().animate({ "top": '-' + page + '%' }, 500);
+    });
+});
+</script><![endif]-->
+<script>
+</script>

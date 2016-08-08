@@ -1,0 +1,171 @@
+<html>
+<h1 class="title">GIG CDN File Search</h1>
+<input type="text" id="searchBox" 
+class="search-field" autoFocus />
+<ul id="searchResults" class="term-list hidden"></ul>
+<h1 class="title">Replace</h1>
+<input type="text" id="searchBox" 
+class="search-field" autoFocus />
+<ul id="searchResults" class="term-list hidden"></ul>
+
+<button type="button" id="submitButton" value="Reset Form" onClick="this.form.reset()" text="submit" value="Reset form">Replace</button>
+</html>
+<style>
+.search-field, .term-list {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.term-list:hover { cursor: pointer;}
+
+body {
+  text-align: center;
+  background: #f2f2f2;
+}
+
+.title {
+  width: 100%;
+  margin: 3em 0 1em;
+  text-align: center;
+  font-family: "Arvo", "Helvetica Neue", Helvetica, arial, sans-serif;
+  font-size: 170%;
+  font-weight: 400;
+  color: #2a5ba3;
+  text-shadow: #fff 1px 1px 0px, #ddd 2px 2px, #ddd 3px 3px 1px;
+}
+.title-2 {
+  width: 100%;
+  margin: 3em 0 1em;
+  text-align: left;
+  font-family: "Arvo", "Helvetica Neue", Helvetica, arial, sans-serif;
+  font-size: 125%;
+  font-weight: 400;
+  color: #2a5ba3;
+  text-shadow: #fff 1px 1px 0px, #ddd 2px 2px, #ddd 3px 3px 1px;
+}
+
+#submitButton{margin-top:1em;}
+
+.search-field {
+  display: block;
+  width: 30%;
+  margin: 1em auto 0;
+  padding: 0.5em 10px;
+  border: 1px solid #999;
+  font-size: 130%;
+  font-family: "Arvo", "Helvetica Neue", Helvetica, arial, sans-serif;
+  font-weight: 400;
+  color: #3e8ce0;
+}
+
+.term-list {
+  list-style: none inside;
+  width: 30%;
+  margin: 0 auto 2em;
+  padding: 5px 10px 0;
+  text-align: left;
+  color: #777;
+  background: #fff;
+  border: 1px solid #ddd;
+  font-family: "Arvo", "Helvetica Neue", Helvetica, arial, sans-serif;
+  font-weight: 400;
+}
+.term-list li {
+  padding: 0.5em 0;
+  border-bottom: 1px solid #eee;
+}
+.term-list li:hover {color:white;opacity:0.7;background:#3e8ce0;}
+.term-list strong:hover {color:white;}
+.term-list strong {
+  color: #444;
+  font-weight: 700;
+}
+
+.hidden {
+  display: none;
+}
+
+</style>
+<script>
+var searchIndex = ["404 Error","Address Bar","Ajax","Apache","Autoresponder","BitTorrent","Blog","Bookmark","Bot","Broadband","Captcha","Certificate","Client","Cloud","Cloud Computing","CMS","Cookie","CSS","Cyberspace","Denial of Service","DHCP","Dial-up","DNS Record","Domain Name","Download","E-mail","Facebook","FiOS","Firewall","FTP","Gateway","Google","Google Drive","Gopher","Hashtag","Hit","Home Page","HTML","HTTP","HTTPS","Hyperlink","Hypertext","ICANN","Inbox","Internet","InterNIC","IP","IP Address","IPv4","IPv6","IRC","iSCSI","ISDN","ISP","JavaScript","jQuery","Meta Search Engine","Meta Tag","Minisite","Mirror","Name Server","Packet","Page View","Payload","Phishing","POP3","Protocol","Scraping","Search Engine","Social Networking","Socket","Spam","Spider","Spoofing","SSH","SSL","Static Website","Twitter","XHTML"];
+
+var input = document.getElementById("searchBox"),
+    ul = document.getElementById("searchResults"),
+    inputTerms, termsArray, prefix, terms, results, sortedResults;
+
+
+var search = function() {
+  inputTerms = input.value.toLowerCase();
+  results = [];
+  termsArray = inputTerms.split(' ');
+  prefix = termsArray.length === 1 ? '' : termsArray.slice(0, -1).join(' ') + ' ';
+  terms = termsArray[termsArray.length -1].toLowerCase();
+  
+  for (var i = 0; i < searchIndex.length; i++) {
+    var a = searchIndex[i].toLowerCase(),
+        t = a.indexOf(terms);
+    
+    if (t > -1) {
+      results.push(a);
+    }
+  }
+  
+  evaluateResults();
+};
+
+var evaluateResults = function() {
+  if (results.length > 0 && inputTerms.length > 0 && terms.length !== 0) {
+    sortedResults = results.sort(sortResults);
+    appendResults();
+  } 
+  else if (inputTerms.length > 0 && terms.length !== 0) {
+    ul.innerHTML = '<li>Whoah! <strong>' 
+      + inputTerms 
+      + '</strong> is not in the index. <br><small><a onclick="myFunction()" href="?q=' 
+      + encodeURIComponent(inputTerms) + '">Index Now</a></small></li>';
+    
+  }
+  else if (inputTerms.length !== 0 && terms.length === 0) {
+    return;
+  }
+  else {
+    clearResults();
+  }
+};
+
+var sortResults = function (a,b) {
+  if (a.indexOf(terms) < b.indexOf(terms)) return -1;
+  if (a.indexOf(terms) > b.indexOf(terms)) return 1;
+  return 0;
+}
+
+var appendResults = function () {
+  clearResults();
+  
+  for (var i=0; i < sortedResults.length && i < 5; i++) {
+    var li = document.createElement("li"),
+        result = prefix 
+          + sortedResults[i].toLowerCase().replace(terms, '<strong>' 
+          + terms 
+          +'</strong>');
+    
+    li.innerHTML = result;
+    ul.appendChild(li);
+  }
+  
+  if ( ul.className !== "term-list") {
+    ul.className = "term-list";
+  }
+};
+
+var clearResults = function() {
+  ul.className = "term-list hidden";
+  ul.innerHTML = '';
+};
+function myFunction() {
+	confirm("Changes Indexed").reset();
+	button.getElementById("submitButton").reset();
+}
+input.addEventListener("keyup", search, false);
+</script>
